@@ -14,7 +14,7 @@ int main(){
     Benchmark::Timer timer("create vec3 10000 times");
     Benchmark::Allocs allocs("allocs vec3 10000 times");
 
-    for(int i = 0; i < 10000; i++)
+    for(int i = 0; i < 600000000; i++)
       vec.emplace_back(new Vec3(1.0f, 2.0f, 3.0f));
 
     while(vec.size()) {

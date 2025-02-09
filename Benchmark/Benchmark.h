@@ -28,9 +28,16 @@ class Timer{
   ~Timer(){
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    Benchmark::get().result.emplace_back(label + ": " + std::to_string(duration.count()) + " microseconds");
+    if(duration.count() > 60000000)
+      Benchmark::get().result.emplace_back(label + ": " + std::to_string(duration.count() / 60000000) + "." + std::to_string(duration.count() % 60000000) + " s");
+    else if(duration.count() > 1000000)
+      Benchmark::get().result.emplace_back(label + ": " + std::to_string(duration.count() / 1000000) + "." + std::to_string(duration.count() % 1000000) + " s");
+    else if(duration.count() > 1000)
+      Benchmark::get().result.emplace_back(label + ": " + std::to_string(duration.count() / 1000) + " ms");
+    else if(duration.count() > 1)
+      Benchmark::get().result.emplace_back(label + ": " + std::to_string(duration.count()) + " us");
   };
-}; // struct Timer
+}; // class Timer
 
 class Allocs{
   private:
@@ -42,7 +49,7 @@ class Allocs{
     Benchmark::get().count_allocs = false; 
     Benchmark::get().result.emplace_back(label + ": " + std::to_string(Benchmark::get().allocs) + " allocs, " + std::to_string(Benchmark::get().deallocs) + " deallocs"); 
   };
-}; // struct Allocs
+}; // class Allocs
 
 }; // namespace Benchmark
 
