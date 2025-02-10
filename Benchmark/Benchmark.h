@@ -72,3 +72,21 @@ void operator delete(void *ptr, std::size_t size) noexcept {
       Benchmark::Benchmark::get().deallocs++;
   free(ptr);
 }
+
+void* operator new[](std::size_t count) noexcept {
+  if(Benchmark::Benchmark::get().count_allocs)
+    Benchmark::Benchmark::get().allocs++;
+  return malloc(count);
+}
+
+void operator delete[](void *ptr) noexcept {
+  if(Benchmark::Benchmark::get().count_allocs)
+    Benchmark::Benchmark::get().deallocs++;
+  free(ptr);
+}
+
+void operator delete[](void *ptr, std::size_t size) noexcept {
+  if(Benchmark::Benchmark::get().count_allocs)
+    Benchmark::Benchmark::get().deallocs++;
+  free(ptr);
+}
