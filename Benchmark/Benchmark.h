@@ -47,7 +47,7 @@ class Allocs{
     { Benchmark::get().count_allocs = count; Benchmark::get().allocs = 0; Benchmark::get().deallocs = 0; };
   ~Allocs() { 
     Benchmark::get().count_allocs = false; 
-    Benchmark::get().result.emplace_back(label + ": " + std::to_string(Benchmark::get().allocs) + " allocs, " + std::to_string(Benchmark::get().deallocs) + " deallocs"); 
+    Benchmark::get().result.emplace_back(label + ": " + std::to_string(Benchmark::get().allocs) + " allocs, " + std::to_string(Benchmark::get().deallocs) + " deallocs " + std::to_string(Benchmark::get().allocs - Benchmark::get().deallocs) + " leaks"); 
   };
   void start() { Benchmark::get().count_allocs = true; };
   void stop() { Benchmark::get().count_allocs = false; };
