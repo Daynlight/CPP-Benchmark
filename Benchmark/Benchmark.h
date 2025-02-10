@@ -43,12 +43,14 @@ class Allocs{
   private:
     std::string label;
   public:
-  Allocs(std::string label = "Allocs: ") : label(label)
-    { Benchmark::get().count_allocs = true; Benchmark::get().allocs = 0; Benchmark::get().deallocs = 0; };
+  Allocs(bool count = true, std::string label = "Allocs: ") : label(label)
+    { Benchmark::get().count_allocs = count; Benchmark::get().allocs = 0; Benchmark::get().deallocs = 0; };
   ~Allocs() { 
     Benchmark::get().count_allocs = false; 
     Benchmark::get().result.emplace_back(label + ": " + std::to_string(Benchmark::get().allocs) + " allocs, " + std::to_string(Benchmark::get().deallocs) + " deallocs"); 
   };
+  void start() { Benchmark::get().count_allocs = true; };
+  void stop() { Benchmark::get().count_allocs = false; };
 }; // class Allocs
 
 }; // namespace Benchmark

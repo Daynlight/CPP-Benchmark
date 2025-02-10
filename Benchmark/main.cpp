@@ -10,17 +10,25 @@ int main(){
 
   {
     std::vector<Vec3*> vec;
+    vec.reserve(10000000);
 
     Benchmark::Timer timer("create vec3 10000 times");
-    Benchmark::Allocs allocs("allocs vec3 10000 times");
+    Benchmark::Allocs allocs(false, "allocs vec3 10000 times");
 
-    for(int i = 0; i < 600000000; i++)
-      vec.emplace_back(new Vec3(1.0f, 2.0f, 3.0f));
+    for(int i = 0; i < vec.capacity(); i++){
+      allocs.start();
+      Vec3* vecN = new Vec3(1.0f, 2.0f, 3.0f);
+      allocs.stop();
+      vec.emplace_back(vecN);
+    }
+     
 
     while(vec.size()) {
       Vec3* vecN = vec.back();
       vec.pop_back();
+      allocs.start();
       delete vecN;
+      allocs.stop();
     };
   }
   
