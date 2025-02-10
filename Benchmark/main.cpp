@@ -13,7 +13,7 @@ int main(){
     vec.reserve(10000000);
 
     Benchmark::Timer timer("create vec3 10000 times");
-    Benchmark::Allocs allocs(false, "allocs vec3 10000 times");
+    Benchmark::Allocs allocs("allocs vec3 10000 times");
 
     for(int i = 0; i < vec.capacity(); i++){
       allocs.start();
